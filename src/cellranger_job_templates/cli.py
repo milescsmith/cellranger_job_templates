@@ -6,7 +6,11 @@ from os.path import join
 from typing import List, Optional
 from .cellranger_job_templates import get_userhome
 
-@click.command()
+@click.group()
+def main():
+    pass
+
+@main.command()
 # @click.argument("runs", required=True)
 @click.option(
     "--runs",
@@ -93,7 +97,7 @@ from .cellranger_job_templates import get_userhome
     show_default=True,
 )
 @click.help_option(show_default=True)
-def main(
+def count(
     runs: List[str],
     file_dir: str = f"{get_userhome()}/workspace/jobs",
     memory: int = 128,
