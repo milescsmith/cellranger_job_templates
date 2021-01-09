@@ -11,6 +11,10 @@ def main():
     pass
 
 @main.command()
+def demux() -> None:
+    pass
+
+@main.command()
 # @click.argument("runs", required=True)
 @click.option(
     "--runs",
@@ -167,7 +171,6 @@ def count(
         
         with open(join(file_dir, f"{run}_counts.job"), "w") as f:
             f.writelines(jobscript)
-
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover
