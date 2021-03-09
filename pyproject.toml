@@ -1,9 +1,25 @@
 [tool.poetry]
 name = "cellranger_job_templates"
-version = "0.2.0"
+version = "0.3.0"
 description = "Generate SLURM job script for Cellranger"
 authors = ["Miles Smith <miles-smith@omrf.org>"]
 license = "BSD 3-clause"
+repository = "https://github.com/milescsmith/cellranger_job_templates"
+homepage = "https://github.com/milescsmith/cellranger_job_templates"
+keywords = ["slurm", "cellranger", "scrnaseq"]
+classifiers=[
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Bioinformatics",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+
+[tool.poetry.scripts]
+"cjt" = "cellranger_job_templates.cli:main"
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -19,3 +35,65 @@ Sphinx = "^3.4.3"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+# https://github.com/psf/black
+line-length = 80
+target-version = ["py38"]
+
+[tool.isort]
+# https://github.com/timothycrosley/isort/
+known_typing = "typing,types,typing_extensions,mypy,mypy_extensions"
+sections = "FUTURE,TYPING,STDLIB,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+include_trailing_comma = true
+default_section = "FIRSTPARTY"
+multi_line_output = 3
+indent = 4
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 80
+
+[tool.flakehell]
+# optionally inherit from remote config (or local if you want)
+base = "https://raw.githubusercontent.com/life4/flakehell/master/pyproject.toml"
+# specify any flake8 options. For example, exclude "example.py":
+exclude = ["example.py"]
+# make output nice
+# format = "grouped"
+# 80 chars aren't enough in 21 century
+max_line_length = 90
+# show line of source code in output
+show_source = true
+
+[tool.flakehell.plugins]
+flake8-bandit = ["+*"]
+flake8-bugbear = ["-B950"]
+flake8-builtins = ["+*"]
+pylint = ["+*", "-C0103", "-C0116", "-C901", "-E203", "-E401", "-E501", "-E266", "-F401", "-F403", "-R0913", "-R0914", "-W503", "-W1203", "-W1309"]
+# wemake-python-styleguide = ["+*", "-WPS305", "-WPS221", "-WPS111", "-WPS231", "-WPS326", "-WPS337", "-WPS336", "-WPS528", "-WPS529"]
+flake8-broken-line = ["+*"]
+flake8-commas = ["+*"]
+flake8-comprehensions = ["+*"]
+# flake8-darglint = ["+*", "-DAR101"]
+flake8-debugger = ["+*"]
+# flake8-docstrings = ["+*"]
+flake8-eradicate = ["+*", "-E800"]
+flake8-isort = ["+*"]
+# flake8-rst-docstrings = ["+*"]
+# flake8-string-format = ["+*"]
+# mccabe = ["+*"]
+# pep8-naming = ["+*"]
+pycodestyle = ["+*","-E203", "-E401", "-E501", "-E266", "-W503", "-W1203", "-W1309"]
+pyflakes = ["+*"]
+
+# match by prefix
+[tool.flakehell.exceptions."tests/"]
+pycodestyle = ["-*"]     # disable a check
+pyflakes = ["-*"]           # disable a plugin
+
+[tool.flakehell.exceptions."tests/test_example.py"]
+pyflakes = ["+*"]           # enable a plugin
+
+# match by glob
+[tool.flakehell.exceptions."**/test_*.py"]
+pyflakes = ["-*"]

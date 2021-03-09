@@ -1,26 +1,31 @@
 """Console script for cellranger_job_templates."""
+from typing import List, Optional
+
 import sys
-import click
 from os.path import join
 
-from typing import List, Optional
+import click
+
 from .cellranger_job_templates import get_userhome
+
 
 @click.group()
 def main():
     pass
 
+
 @main.command()
 def demux() -> None:
     pass
+
 
 @main.command()
 # @click.argument("runs", required=True)
 @click.option(
     "--runs",
     #  required=True,
-     type=str
-     )
+    type=str,
+)
 @click.option(
     "--file_dir",
     "-f",
@@ -73,8 +78,8 @@ def demux() -> None:
     "--status",
     "-s",
     help="type of status updates to send",
-    type=click.Choice(["END","FAIL","START"]),
-    default=["END","FAIL"],
+    type=click.Choice(["END", "FAIL", "START"]),
+    default=["END", "FAIL"],
     multiple=True,
     show_default=True,
 )
@@ -108,14 +113,14 @@ def count(
     cpus: int = 8,
     jobs: int = 8,
     email: Optional[str] = None,
-    status: List[str] = ["END","FAIL"],
+    status: List[str] = ["END", "FAIL"],
     cellranger: str = "/Volumes/guth_aci_informatics/software/cellranger-5.0.0",
     transcriptome: str = "/Volumes/guth_aci_informatics/references/genomic/chimeras/indices/refdata-gex-GRCh38_and_mm10-2020-A",
     project_path: str = "/s/guth-aci",
-    ) -> None:
+) -> None:
     """Quickly create a job file to perform counting with 10X's Cellranger
 
-    This script assumes that the project is organized according to the 
+    This script assumes that the project is organized according to the
     [scrna-processor cookiecutter](guthridge_informatics/scrna-processor)
 
     \b
@@ -131,7 +136,7 @@ def count(
 
     for run in runs:
         # Start writing to this file
-        
+
         jobscript = (
             f"#! /bin/bash -l\n"
             f"#SBATCH -J {run}\n"
@@ -144,7 +149,7 @@ def count(
                 f"#SBATCH --mail-user={email}\n"
                 f"#SBATCH --mail-type={status}\n"
             )
-        
+
         jobscript = (
             f"{jobscript}"
             f"#SBATCH --mem={memory}\n"
@@ -168,9 +173,10 @@ def count(
             f"\t--no-bam \\\n"
             f"\t--include-introns\n"
         )
-        
+
         with open(join(file_dir, f"{run}_counts.job"), "w") as f:
             f.writelines(jobscript)
+
 
 if __name__ == "__main__":
     sys.exit(main())  # pragma: no cover
