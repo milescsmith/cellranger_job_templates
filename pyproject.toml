@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cellranger_job_templates"
-version = "0.3.0"
+version = "0.5.0"
 description = "Generate SLURM job script for Cellranger"
 authors = ["Miles Smith <miles-smith@omrf.org>"]
 license = "BSD 3-clause"
@@ -19,11 +19,14 @@ classifiers=[
 ]
 
 [tool.poetry.scripts]
-"cjt" = "cellranger_job_templates.cli:main"
+"cjt" = "cellranger_job_templates.cli:app"
 
 [tool.poetry.dependencies]
 python = "^3.8"
 click = "^7.1.2"
+typer = "^0.3.2"
+numpy = "^1.20.1"
+pandas = "^1.2.3"
 
 [tool.poetry.dev-dependencies]
 click = "^7.1.2"
