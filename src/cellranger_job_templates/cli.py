@@ -3,12 +3,11 @@ from typing import List, Optional, Tuple
 
 import re
 from enum import Enum
-from pathlib import Path
+from pathlib import Path, home
 
 import numpy as np
 import pandas as pd
 import typer
-from cellranger_job_templates.cellranger_job_templates import get_userhome
 from cellranger_job_templates.logging import crjt_logger as logger
 
 app = typer.Typer()
@@ -74,17 +73,17 @@ def demux() -> None:
 
 @app.command()
 def count(
-    project_dir: str = typer.Argument(
+    project_dir: Path = typer.Argument(
         ...,
         help="Path to the directory containing the project (i.e. `/scratch/myscrnaseqproject/`",
     ),
-    job_out: str = typer.Option(
-        f"{get_userhome()}/workspace/jobs",
+    job_out: Path = typer.Option(
+        f"{home()}/workspace/jobs",
         "--job_out",
         "-f",
         help="Path to which job files should be saved",
     ),
-    libraries_out: Optional[str] = typer.Option(
+    libraries_out: Optional[Path] = typer.Option(
         None,
         "--library_out",
         "-lo",

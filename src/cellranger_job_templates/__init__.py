@@ -1,5 +1,20 @@
 """Top-level package for cellranger_job_templates."""
 
-__author__ = """Miles Smith"""
-__email__ = "miles-smith@omrf.org"
-__version__ = "0.1.0"
+from importlib.metadata import metadata, version
+
+try:
+    __author__ = metadata(__name__)["Author"]
+except KeyError:
+    __author__ = "unknown"
+
+try:
+    __email__ = metadata(__name__)["Author-email"]
+except KeyError:  # pragma: no cover
+    __email__ = "unknown"
+
+try:
+    __version__ = version(__name__)
+except KeyError:  # pragma: no cover
+    __version__ = "unknown"
+    
+import cli
